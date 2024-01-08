@@ -15,10 +15,11 @@ public class ReqresTest {
     @Test
     public void checkAvatarAndIdTest() {
 
+        Specifications.installSpecification(Specifications.requestSpec(URL), Specifications.responseSpec200());
+
         List<UserData> users = given()
                 .when()
-                .contentType(ContentType.JSON)
-                .get(URL + "api/users?page=2")
+                .get("api/users?page=2")
                 .then().log().all()
                 .extract().body().jsonPath().getList("data", UserData.class);
 
