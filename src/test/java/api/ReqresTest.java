@@ -34,4 +34,28 @@ public class ReqresTest {
             Assert.assertTrue(avatars.get(i).contains(ids.get(i)));
         }
     }
+
+    @Test
+    public void successRegTest() {
+
+        Specifications.installSpecification(Specifications.requestSpec(URL), Specifications.responseSpec200());
+
+        Integer id = 4;
+        String token = "QpwL5tke4Pnpja7X4";
+
+        Register user = new Register("eve.holt@reqres.in", "pistol");
+
+        SuccessReg successReg = given()
+                .body(user)
+                .when()
+                .post("api/register")
+                .then().log().all()
+                .extract().as(SuccessReg.class);
+
+        Assert.assertNotNull(successReg.getId());
+        Assert.assertNotNull(successReg.getToken());
+
+        Assert.assertEquals(id, successReg.getId());
+        Assert.assertEquals(token, successReg.getToken());
+    }
 }
